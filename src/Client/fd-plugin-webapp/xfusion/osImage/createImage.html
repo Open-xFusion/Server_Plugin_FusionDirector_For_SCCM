@@ -105,26 +105,6 @@
                                 </el-select>
                             </el-form-item>
 
-                            <!--  <el-form-item :label="i18ns.imageManage.imageManage_selsctImageFileColon" prop="ImagePath">
-                                <el-row style="position: absolute;">
-                                    <el-button size="small" type="primary" :disabled="true" v-show="fileDisabled">{{i18ns.imageManage.imageManage_pleaseUpload}}</el-button>
-                                    <el-button size="small" @click="cancelUpload" v-show="fileDisabled">{{i18ns.imageManage.imageManage_cancelUpload}}</el-button>
-                                </el-row>
-                                <el-upload ref="upload" name="tiFile" :action="updalodUrl" :file-list="fileList" accept=".iso"
-                                    :on-success="uploadSuccess" :on-error="uploadError" :multiple="false"
-                                    :before-upload="beforeUpdalod" :on-remove="removeFile" :limit="1" :on-exceed="fileExceed"
-                                    :on-progress="uploadProgress">
-                                    <el-button size="small" type="primary" @click="fileClick" v-show="!fileDisabled">{{i18ns.imageManage.imageManage_pleaseUpload}}</el-button>
-                                </el-upload>
-                                <div v-if="isShowUploadTip" class="el-upload__tip">{{i18ns.imageManage.uploadTips}}<i
-                                        class="el-icon-loading"></i></div>
-                                <div v-if="isShowFileTip" style="color:#999">
-                                    <i class="el-icon-info" style="color:#409eff"></i>
-                                    {{i18ns.imageManage.imageManage_fileTips}}
-                                </div>
-                            </el-form-item> -->
-
-
                             <el-form-item :label="i18ns.imageManage.imageManage_selsctImageFileColon" prop="filePath">
                                 <el-input :placeholder="i18ns.imageManage.imageManage_pleaseEnterImageFile" v-model="creatForm.filePath"
                                     :clearable="true" :disabled="isFileUploading||isFileUploadSuccess">
@@ -291,7 +271,7 @@
                 FileType: [],
                 OsType: [],
                 OsVersion: [],
-                CheckType: ['SHA256', 'MD5']
+                CheckType: ['SHA256']
 
             },
             computed: {
@@ -551,6 +531,7 @@
                                     CheckCode: app.creatForm.CheckCode
                                 })
                             }
+                            param.data.Architecture = 'x86';
                             if (app.creatForm.OsVersion.includes("*")) {
                                 param.data.FuzzificationOSVersion = app.creatForm.OsVersion.replace(new RegExp('\\*', 'g'), '')
                             }

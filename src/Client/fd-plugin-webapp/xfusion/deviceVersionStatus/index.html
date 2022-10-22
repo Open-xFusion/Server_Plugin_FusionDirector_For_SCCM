@@ -323,7 +323,7 @@
                 <el-row class="search-row">
                     <div class="input-with-select">
                         <el-input :placeholder="i18ns.deviceVersionStatus.deviceVersionStatus_SearchTip"
-                            v-model.trim="keyword" clearable @clear="searchScope">
+                            v-model="keyword" clearable @clear="searchScope">
                             <el-select v-model="types" slot="prepend">
                                 <el-option v-for="item in ModelTypes" :key="item.id" :label="item.label"
                                     :value="item.id">
@@ -530,13 +530,6 @@
                 setTimeout(function () {
                     getFDList(that.bindFD);
                 }, 0);
-                //输入框键盘事件监听
-                $('.is-in-pagination .el-input__inner').bind('keydown', function (event) {
-                    if (event.keyCode == "13") {
-                        var value = parseInt(this.value);
-                        that.handleCurrentChange(value);
-                    }
-                });
             },
             methods: {
                 toensurePage: function () {

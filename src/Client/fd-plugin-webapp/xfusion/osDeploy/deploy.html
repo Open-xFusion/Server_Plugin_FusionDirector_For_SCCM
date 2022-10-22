@@ -257,6 +257,7 @@
                 OSQueryList: [],
                 isCheckAll: true, //是否选中所有设备行
                 checkedList: [], //选中的设备行
+                deviceList: [], //已添加的设备
 
                 tipsDeploy: false,
 
@@ -276,14 +277,6 @@
                 Vue.nextTick(function () {
                     app.getDeployInfo();
                 })
-                var that = this;
-                //输入框键盘事件监听
-                $('.is-in-pagination .el-input__inner').bind('keydown', function (event) {
-                    if (event.keyCode == "13") {
-                        var value = parseInt(this.value);
-                        that.handleCurrentChange(value);
-                    }
-                });
             },
             methods: {
                 toensurePage: function () {
@@ -326,6 +319,7 @@
                  * 清空
                  */
                 clear: function () {
+                    this.deviceList = [];
                     this.checkedList = [];
                     this.listData = [];
                     this.total = 0;
@@ -342,11 +336,8 @@
                     var param = {
                         ip: this.FDIp,
                         id: this.deployId,
-                        // pageSize: this.tipsPageSize,
-                        // pageNo: this.tipsPageNo
-                        // data: {
-                        //     ImageID: this.deployId
-                        // }
+                        pageSize: this.tipsPageSize,
+                        pageNo: this.tipsPageNo
                     };
                     serverprofileManage.releaseDeploy(param, function (ret) {
                         if (ret.code == '0') {
@@ -378,10 +369,11 @@
                  * 删除
                  */
                 deleteOne: function (row, index) {
-                    console.log(index);
-                    this.checkedList.splice(index, 1);
-                    this.listData.splice(index, 1);
-                    this.total = this.listData.length;
+                    this.deviceList.splice(index, 1);
+                    var from = (this.currentPage - 1) * this.pageSize;
+                    var end = this.currentPage * this.pageSize;
+                    this.listData = this.deviceList.slice(from, end);
+                    this.total = this.deviceList.length;
                 },
                 /**
                  * 弹窗的选择
@@ -395,10 +387,21 @@
                  */
                 ensure: function () {
                     this.tipsDialogisible = false;
+                    // 已添加的设备的ID列表，用来去重
+                    let deviceIdList = [];
+                    this.deviceList.forEach(item => {
+                        deviceIdList.push(item.DeviceID);
+                    })
+                    // 选中的设备列表去重后追加到 已添加设备列表 中
+                    this.checkedList.forEach(item => {
+                        if (deviceIdList.indexOf(item.DeviceID) === -1) {
+                            this.deviceList.push(item);
+                        }
+                    })
                     var from = (this.currentPage - 1) * this.pageSize;
                     var end = this.currentPage * this.pageSize;
-                    this.listData = this.checkedList.slice(from, end);
-                    this.total = this.listData.length;
+                    this.listData = this.deviceList.slice(from, end);
+                    this.total = this.deviceList.length;
                 },
                 /**
                  * 部署
@@ -420,8 +423,8 @@
                             }]
                         }]
                     }
-                    for (var i = 0; i < this.checkedList.length; i++) {
-                        data.Collections[0].Target.push(this.checkedList[i].DeviceID);
+                    for (var i = 0; i < this.deviceList.length; i++) {
+                        data.Collections[0].Target.push(this.deviceList[i].DeviceID);
                     }
                     var param = {
                         ip: this.FDIp,
@@ -469,7 +472,7 @@
                     this.pageSize = val;
                     var from = (this.currentPage - 1) * this.pageSize;
                     var end = this.currentPage * this.pageSize;
-                    this.listData = this.checkedList.slice(from, end);
+                    this.listData = this.deviceList.slice(from, end);
                 },
                 /**
                  * 切换当前显示页
@@ -480,7 +483,7 @@
                     this.currentPage = val;
                     var from = (this.currentPage - 1) * this.pageSize;
                     var end = this.currentPage * this.pageSize;
-                    this.listData = this.checkedList.slice(from, end);
+                    this.listData = this.deviceList.slice(from, end);
                 },
                 /**
                  * 切换当前显示页  弹窗设备选择

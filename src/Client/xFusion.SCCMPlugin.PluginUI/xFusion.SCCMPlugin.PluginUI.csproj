@@ -119,7 +119,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\build_tools\System Center Configuration Manager\Microsoft.ManagementConsole.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\open_source\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -129,7 +129,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+    <Reference Include="System.Data.SQLite">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\open_source\System.Data.SQLite\System.Data.SQLite.dll</HintPath>
     </Reference>

@@ -401,6 +401,10 @@
                                 id: app.imageId,
                                 data: app.creatForm
                             };
+                            param.data.Architecture = 'x86';
+                            if (app.creatForm.OsVersion.includes("*")) {
+                                param.data.FuzzificationOSVersion = app.creatForm.OsVersion.replace(new RegExp('\\*', 'g'), '')
+                            }
                             app.fullscreenLoading = true;
                             osImageManage.editImageInfo(param, function (ret) {
                                 app.fullscreenLoading = false;

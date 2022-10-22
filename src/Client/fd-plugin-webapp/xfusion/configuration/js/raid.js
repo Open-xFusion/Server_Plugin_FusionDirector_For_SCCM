@@ -272,21 +272,17 @@ Vue.component('item-raid', {
         validateVolumeName: function (index) {
             var val = this.raidGList[index].VolumeName;
             if (val) {
-                if (getBytes(val) <= 15 && /^[0-9a-zA-Z_\u4e00-\u9fa5\-\s]+$/.test(val)) {
+                if (getBytes(val) <= 15 && /^[\w\-\s`~!@#$%^&*()=+\\|\[{}\];:'",<.>/?]+$/.test(val)) {
                     this.raidGList[index].VolumeNameTips.isShowTip = false;
                     return true;
                 } else {
                     this.raidGList[index].VolumeNameTips.isShowTip = true;
                     this.raidGList[index].VolumeNameTips.TipTxt = this.i18ns.config.configurationModule_submitErrorRaidNamePatternLabel;
-                    var ref = 'volumeName' + index;
-                    //this.$refs[ref].focus();
                     return false;
                 }
             } else {
                 this.raidGList[index].VolumeNameTips.isShowTip = true;
                 this.raidGList[index].VolumeNameTips.TipTxt = this.i18ns.config.configurationModule_submitErrorRaidNameLabel;
-                var ref = 'volumeName' + index;
-                //this.$refs[ref].focus();
                 return false;
             }
         },
@@ -297,7 +293,7 @@ Vue.component('item-raid', {
         validateVolumeName1: function (index) {
             var val = this.raidGList[index].VolumeName;
             if (val) {
-                if (getBytes(val) <= 15 && /^[0-9a-zA-Z_\u4e00-\u9fa5\-\s]+$/.test(val)) {
+                if (getBytes(val) <= 15 && /^[\w\-\s`~!@#$%^&*()=+\\|\[{}\];:'",<.>/?]+$/.test(val)) {
                     this.raidGList[index].VolumeNameTips.isShowTip = false;
                     return true;
                 } else {
@@ -323,7 +319,7 @@ Vue.component('item-raid', {
         validateVolumeName2: function (index) {
             var val = this.raidGList[index].VolumeName;
             if (val) {
-                if (getBytes(val) <= 15 && /^[0-9a-zA-Z_\u4e00-\u9fa5\-\s]+$/.test(val)) {
+                if (getBytes(val) <= 15 && /^[\w\-\s`~!@#$%^&*()=+\\|\[{}\];:'",<.>/?]+$/.test(val)) {
                     this.raidGList[index].VolumeNameTips.isShowTip = false;
                     return true;
                 } else {

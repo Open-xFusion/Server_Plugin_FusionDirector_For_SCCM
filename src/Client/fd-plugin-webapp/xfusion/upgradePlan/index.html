@@ -118,7 +118,7 @@
                 </el-dropdown-menu>
             </el-dropdown>
             <div class="input-with-select">
-                <el-input v-model.trim="keyword" clearable>
+                <el-input v-model="keyword" clearable>
                     <el-button slot="append" icon="el-icon-search" v-on:click="searchUpgradePackagePlan()"></el-button>
                 </el-input>
             </div>
@@ -269,13 +269,6 @@
                 setTimeout(function () {
                     getFDList(that.bindFD);
                 }, 0);
-                //输入框键盘事件监听
-                $('.is-in-pagination .el-input__inner').bind('keydown', function (event) {
-                    if (event.keyCode == "13") {
-                        var value = parseInt(this.value);
-                        that.handleCurrentChange(value);
-                    }
-                });
             },
             methods: {
                 toensurePage: function () {

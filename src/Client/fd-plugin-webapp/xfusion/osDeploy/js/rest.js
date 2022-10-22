@@ -160,6 +160,7 @@ var serverprofileManage = {
     releaseDeploy: function (param, callback) {
         var endpoint = "/rich/DeployModels/" + param.id + "/Devices?";
         endpoint += "$filter=ServerState eq Ready";
+        endpoint += "&$skip=" + (param.pageNo - 1) * param.pageSize + "&$top=" + param.pageSize;
         var data = {
             "ips": [param.ip],
             "httpMethod": "GET",

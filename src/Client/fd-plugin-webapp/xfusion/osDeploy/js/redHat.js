@@ -121,7 +121,7 @@ Vue.component('RedHat', {
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item :label="i18ns.OSDeploy.OSDeploy_iBMALable" prop="SupportIbma">
+            <el-form-item :label="i18ns.OSDeploy.OSDeploy_iBMALable" prop="SupportIbma" v-if="isSupportIBMA">
                 <el-checkbox v-model="deployForm.SupportIbma" @change="ibmaChange">
                     {{i18ns.OSDeploy.OSDeploy_install}}</el-checkbox>
                 <span v-if="!deployForm.SupportIbma" style="color: #EEAF76;"><i class="el-icon-warning"
@@ -190,6 +190,7 @@ Vue.component('RedHat', {
             Keyboard: [], //键盘选项
             Timezone: [], //时区
             SupportIbma: [],
+            isSupportIBMA: false,  //是否支持安装iBMA
             filesystems: []
         }
     },
@@ -258,6 +259,16 @@ Vue.component('RedHat', {
                     app.deployForm.OsLanguage = ret.data[0].data.Result.Attribute.Language[0];
                     app.deployForm.Timezone = ret.data[0].data.Result.Attribute.Timezone[0];
                     app.deployForm.KeyBoard = ret.data[0].data.Result.Attribute.Keyboard[0];
+                    if (ret.data[0].data.Result.Attribute.SupportSoftware.length > 0
+                        && ret.data[0].data.Result.Attribute.SupportSoftware[0] === 'iBMA') {
+                        app.isSupportIBMA = true;
+                        app.deployForm.SupportIbma = true;
+                        app.deployForm.Software = [{"FileName": "iBMA"}];
+                    } else {
+                        app.isSupportIBMA = false;
+                        app.deployForm.SupportIbma = false;
+                        app.deployForm.Software = [];
+                    }
                     var partition = _.filter(ret.data[0].data.Result.Partition, {
                         'SubType': app.version
                     })
