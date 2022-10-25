@@ -154,7 +154,7 @@
                     </el-input>
                 </div>
                 <div class="input-with-select" v-if="activeType=='second'">
-                    <el-input :placeholder="i18ns.upgradePlan_SearchTip" v-model.trim="upgradePackageKeyword" clearable
+                    <el-input :placeholder="i18ns.upgradePlan_SearchTip" v-model="upgradePackageKeyword" clearable
                         @clear="searchUpgradePackage()">
                         <el-select v-model="upgradePackageType" slot="prepend">
                             <el-option v-for="item in upgradePackageOptions" :key="item.id" :label="item.label"
@@ -353,10 +353,15 @@
                             <el-table-column prop="CreationTime"
                                 :label="i18ns.upgradePackageWarehouse.versionWarehouse_createTime" sortable>
                             </el-table-column>
+                            <el-table-column prop="Version"
+                                :label="i18ns.upgradePackageWarehouse.versionWarehouse_manufacturer">
+                                <template slot-scope="scope">
+                                    <p v-for="vis in scope.row.Version"><span>{{vis.Manufacturer}}</span>
+                                    </p>
+                                </template>
+                            </el-table-column>
                             <el-table-column :label="i18ns.common.operation" width="180px">
                                 <template slot-scope="scope">
-                                    <!--    <el-button type="text" size="small" @click="upgradePackageDevice(scope.row)">
-                                        {{i18ns.upgradePackageWarehouse.versionWarehouse_upgradeDevice}}</el-button> -->
                                     <el-button type="text" size="small" @click="deletePackage(scope.row)"
                                         :disabled="checkboxT(scope.row)==0">{{i18ns.common.delete}}</el-button>
                                 </template>
@@ -766,9 +771,6 @@
                     id: "PackageName",
                     label: this.i18ns.upgradePackageWarehouse.versionWarehouse_upgradeName
                 }, {
-                    id: "Component",
-                    label: this.i18ns.upgradePackageWarehouse.versionWarehouse_component
-                }, {
                     id: "Version",
                     label: this.i18ns.upgradePackageWarehouse.versionWarehouse_version
                 }, {
@@ -809,13 +811,6 @@
                 setTimeout(function () {
                     getFDList(that.bindFD);
                 }, 0);
-                //输入框键盘事件监听
-                $('.is-in-pagination .el-input__inner').bind('keydown', function (event) {
-                    if (event.keyCode == "13") {
-                        var value = parseInt(this.value);
-                        that.handleCurrentChange(value);
-                    }
-                });
             },
             methods: {
                 toensurePage: function () {

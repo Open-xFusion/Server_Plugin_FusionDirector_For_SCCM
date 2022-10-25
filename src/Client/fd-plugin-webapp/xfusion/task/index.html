@@ -533,9 +533,6 @@
                                 code: '-90002'
                             }))
                         }
-                    } else {
-                        var msg = getErrorMsg(ret);
-                        alertMsg(msg);
                     }
                 },
 
@@ -619,8 +616,6 @@
                         if (ret.ip != app.FDIp) {
                             return false
                         }
-                        var msg = getErrorMsg(ret);
-                        alertMsg(msg);
                     }
                     setTimeout(function () {
                         this.loading = false;
@@ -687,10 +682,9 @@
                             id: this.deleteList[i].ID
                         };
                         serverprofileManage.deleteMasterTask(param, function (ret) {
-                            if (ret.code == '0') {
+                            if (ret.code === '0') {
                                 app.tipsDialogisible = false;
                                 app.currentPage = 1;
-                                app.getListData();
                             } else {
                                 if (ret.ip != app.FDIp) {
                                     return false
@@ -700,6 +694,7 @@
                             }
                         })
                     }
+                    app.getListData();
                 },
                 /**
                  * 搜索

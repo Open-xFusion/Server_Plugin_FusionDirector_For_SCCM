@@ -29,10 +29,6 @@ Vue.component("choice-packages", {
                 label: this.i18ns.upgradePlan.upgradePlan_packageName
             },
             {
-                id: 'Component',
-                label: this.i18ns.upgradePlan.upgradePlan_component
-            },
-            {
                 id: 'Version',
                 label: this.i18ns.upgradePlan.upgradePlan_version
             },
@@ -83,7 +79,7 @@ Vue.component("choice-packages", {
                 orderby: orderBy
             }
             if (this.keyword) {
-                queryParam.filter = this.searchType + " has " + "'" + this.keyword + "'"
+                queryParam.filter = this.searchType + " has " + "'" + encodeURIComponent(this.keyword) + "'"
             }
             this.emptyText = this.i18ns.common.loading;
             var that = this;

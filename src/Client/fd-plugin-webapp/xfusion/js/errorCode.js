@@ -472,7 +472,7 @@
     "Base.1.0.InvalidObject": {
         "Message": "%1处的对象无效。",
         "NumberOfArgs": 1,
-        "Resolution": "对象格式不正确或URI不正确。更正条件，并在请求失败时重新提交。"
+        "Resolution": "对象格式不正确或URI不正确或对象重复。更正条件，并在请求失败时重新提交。"
     },
     "Base.1.0.InternalError": {
         "Message": "由于内部服务错误，请求失败。该服务仍在运行。",
@@ -2567,6 +2567,31 @@
         "Message": "系统升级包校验失败",
         "NumberOfArgs": 0,
         "Resolution": "请检查升级包的格式和完整性，再重新上传"
+    },
+    'FusionDirector.1.0.DeployServiceParamNotSupport': {
+        "Message": "服务检测到参数%1和%2不匹配。",
+        "NumberOfArgs": 2,
+        "Resolution": "请确保参数匹配，并重新提交请求。"
+    },
+    'FusionDirector.1.0.FDObjectNameExistError': {
+        "Message": "输入的对象名称%1已存在。",
+        "NumberOfArgs": 1,
+        "Resolution": "请重新输入名称，再提交请求。"
+    },
+    'FusionDirector.1.0.ServerProfileIsProOrActErr': {
+        "Message": "此服务器配置文件正在被下发或者已经生效在设备上。",
+        "NumberOfArgs": 0,
+        "Resolution": "请将设备从服务器配置文件中解绑或者等待下发完成后解绑。"
+    },
+    'FusionDirector.1.0.RequestLimitReached': {
+        "Message": "已达到请求数量上限。",
+        "NumberOfArgs": 0,
+        "Resolution": "已达到请求数量上限，请稍后重试。"
+    },
+    'FusionDirector.1.0.DeployServiceFuzzificationOSVersionNotMatch': {
+        "Message": "在%1架构下，OS版本号%2与模糊化OS版本号%3不匹配。",
+        "NumberOfArgs": 3,
+        "Resolution": "请选择正确的OS版本号和模糊化版本，并重试。"
     }
     /***************************FD end**********************************/
 
@@ -3049,7 +3074,7 @@ var errorCode_en = {
     "Base.1.0.InvalidObject": {
         "Message": "The object at %1 is invalid.",
         "NumberOfArgs": 1,
-        "Resolution": "Either the object is malformed or the URI is not correct. Correct the condition and resubmit the request if it failed."
+        "Resolution": "Either the object is malformed or the URI is not correct or the object is duplicated. Correct the condition and resubmit the request if it failed."
     },
     "Base.1.0.InternalError": {
         "Message": "The request failed due to an internal service error. The service is still operational.",
@@ -5144,6 +5169,31 @@ var errorCode_en = {
         "Message": "Failed to verify the system update package.",
         "NumberOfArgs": 0,
         "Resolution": "Check the format and integrity of the update package, and upload it again."
+    },
+    'FusionDirector.1.0.DeployServiceParamNotSupport': {
+        "Message": "The service detected param %1 and %2 do not match.",
+        "NumberOfArgs": 2,
+        "Resolution": "Ensure that the parameters match and try again."
+    },
+    'FusionDirector.1.0.FDObjectNameExistError': {
+        "Message": "The entered object name %1 already exists.",
+        "NumberOfArgs": 1,
+        "Resolution": "Please re-enter the name and try again."
+    },
+    'FusionDirector.1.0.ServerProfileIsProOrActErr': {
+        "Message": "The server profile is being delivered or has already taken effect on the device.",
+        "NumberOfArgs": 0,
+        "Resolution": "Unbind the device from the server profile or unbind the device after the server profile is delivered."
+    },
+    'FusionDirector.1.0.RequestLimitReached': {
+        "Message": "The request limit reached.",
+        "NumberOfArgs": 0,
+        "Resolution": "The request limit reached, please retry later."
+    },
+    'FusionDirector.1.0.DeployServiceFuzzificationOSVersionNotMatch': {
+        "Message": "In the %1 architecture, the OS version %2 does not match the fuzzy OS version %3.",
+        "NumberOfArgs": 3,
+        "Resolution": "Select the correct OS version number and fuzzy version number and try again."
     }
     /***************************FD end**********************************/
 

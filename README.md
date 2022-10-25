@@ -6,12 +6,12 @@ I. General Information
 
     Name:     SCCM Plugin Pack for XFUSION Device
     Category: Monitoring
-    Version:  1.2.0
+    Version:  1.3.0
 
 
 II. Description
 
-    The SCCM plug-in is a plug-in integrated in the SCCM and used for XFUSION server management. It can be used to connect to multiple eSight systems and view the servers managed by eSight V300R007C00SPC503. It is compatible with systems such as SCCM 2012 SP1
+    The SCCM plug-in is a plug-in integrated in the SCCM and used for XFUSION server management. It can be used to connect to multiple eSight systems and view the servers managed by eSight V300R007C00SPC503. It is compatible with systems such as SCCM 2012 SP1, MEM 2203.
 	
 III.Supported Device  
 

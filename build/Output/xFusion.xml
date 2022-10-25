@@ -1,4 +1,4 @@
-<RootNodeDescription NamespaceGuid="264ACD1E-5616-4656-91A3-90FFA20F2FA7" Id="xFusionHost" DisplayName="xFusion" Description="xFusion" HelpTopic="">
+<RootNodeDescription NamespaceGuid="264ACD1E-5616-4656-91A3-90FFA20F2FA7" Id="xFusionHost" DisplayName="XFUSION" Description="XFUSION" HelpTopic="">
   <!--<SecurityConfiguration>
     <ClassPermissions>
       <ActionSecurityDescription ClassObject="SMS_Lenovo" RequiredPermissions="1" />

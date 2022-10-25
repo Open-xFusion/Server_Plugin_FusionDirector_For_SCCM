@@ -720,7 +720,7 @@
                 @opened="handleDialogOpen" @close="handleDialogClose">
                 <el-row class="search-row">
                     <div class="input-with-select">
-                        <el-input :placeholder="i18ns.upgradePlan.upgradePlan_SearchTip" v-model.trim="keyword"
+                        <el-input :placeholder="i18ns.upgradePlan.upgradePlan_SearchTip" v-model="keyword"
                             clearable @clear="searchList" style="vertical-align:middle">
                             <el-select v-model="searchType" slot="prepend">
                                 <el-option v-for="item in searchTypes" :key="item.id" :label="item.label"
@@ -1210,7 +1210,7 @@
                 @opened="handleDialogOpen" @close="handleDialogClose">
                 <el-row class="search-row">
                     <div class="input-with-select">
-                        <el-input :placeholder="i18ns.upgradePlan.upgradePlan_SearchTip" v-model.trim="keyword"
+                        <el-input :placeholder="i18ns.upgradePlan.upgradePlan_SearchTip" v-model="keyword"
                             clearable @clear="searchList" style="vertical-align:middle">
                             <el-select v-model="searchType" slot="prepend">
                                 <el-option v-for="item in searchTypes" :key="item.id" :label="item.label"
@@ -2322,121 +2322,73 @@
                         ip: app.FDIp,
                         id: taskId
                     }, function (ret) {
-                        if (ret.code == '0') {
-                            if (ret.data[0].data.Status == 'Finish') {
-                                var data = ret.data[0].data.TaskExInfo.DeviceFirmwareInfos
-                                    .Members;
-                                if (data) {
-                                    for (var i = 0; i < data.length; i++) {
-                                        data[i]['MINSPVersion'] = ret.data[0].data
-                                            .TaskExInfo.DeviceFirmwareInfos.MINSPVersion;
-                                        data[i]['MINBMCVersionForSPUpgrade'] = ret.data[0]
-                                            .data.TaskExInfo.DeviceFirmwareInfos
-                                            .MINBMCVersionForSPUpgrade;
-                                        var disabled = true;
-                                        var isIndeterminate = false;
-                                        var isSelected = false;
-                                        for (var k = 0; k < data[i].Server
-                                            .Components
-                                            .length; k++) {
-                                            if (_.filter(data[i].Server.Components, {
-                                                    Component: 'BackupBMC'
-                                                }).length > 0 && _.filter(data[i].Server
-                                                    .Components, {
-                                                        Component: 'BackupBMC'
-                                                    })[0].UpgradeableStatus == 'CanUpgrade' &&
-                                                _.filter(data[i].Server.Components, {
-                                                    Component: 'ActiveBMC'
-                                                }).length > 0 && _.filter(data[i].Server
-                                                    .Components, {
-                                                        Component: 'ActiveBMC'
-                                                    })[0].UpgradeableStatus == 'CanUpgrade'
-                                            ) {
-                                                _.filter(data[i].Server.Components, {
-                                                    Component: 'BackupBMC'
-                                                })[0].UpgradeableStatus = 'BackupBMC';
-                                            }
-                                            data[i].Server.Components[k]['sort'] = app
-                                                .componentSort(data[i]
-                                                    .Server.Components[k]);
-                                            if (data[i].Server.Components[k].UpgradeableStatus ==
-                                                'CanUpgrade' || data[i].Server.Components[k]
-                                                .UpgradeableStatus ==
-                                                'DriverCanUpgrade' || data[i].Server.Components[k]
-                                                .UpgradeableStatus ==
-                                                'SPCanUpgrade') {
-                                                data[i].Server.Components[k]['checkboxDisabled'] =
-                                                    false;
-                                                data[i].Server.Components[k]['isSelected'] = true;
-                                                data[i].Server.Components[k]['checkboxTips'] = '';
-                                                disabled = false;
-                                                isSelected = true;
-                                            } else if (data[i].Server.Components[k]
-                                                .UpgradeableStatus ==
-                                                'CanUpgradeAndNeedUpgradeSP' || data[i].Server
-                                                .Components[k].UpgradeableStatus ==
-                                                'NoMatchingDriverPackageAndNeedUpgradeSP' || data[i]
-                                                .Server.Components[k].UpgradeableStatus ==
-                                                'SameVersion' || data[i].Server.Components[k]
-                                                .UpgradeableStatus ==
-                                                'NoMatchingDriverPackage' || data[i].Server
-                                                .Components[
-                                                    k].UpgradeableStatus ==
-                                                'NoMatchingDriverPackageAndNoMatchingComponentPackage' ||
-                                                data[i].Server.Components[k]
-                                                .UpgradeableStatus ==
-                                                'NoMatchingComponentPackage') {
-                                                data[i].Server.Components[k]['checkboxDisabled'] =
-                                                    false;
-                                                data[i].Server.Components[k]['isSelected'] = false;
-                                                data[i].Server.Components[k]['checkboxTips'] = app
-                                                    .componentCheckBoxTip(data[i].Server
-                                                        .Components[k],
-                                                        data[i].MINSPVersion, data[i]
-                                                        .MINBMCVersionForSPUpgrade);
-                                                disabled = false;
-                                                isIndeterminate = true;
-                                            } else {
-                                                data[i].Server.Components[k][
-                                                    'checkboxDisabled'
-                                                ] = true;
-                                                data[i].Server.Components[k]['isSelected'] =
-                                                    false;
-                                                data[i].Server.Components[k]['checkboxTips'] =
-                                                    app
-                                                    .componentCheckBoxTip(data[i].Server
-                                                        .Components[k],
-                                                        data[i].MINSPVersion, data[i]
-                                                        .MINBMCVersionForSPUpgrade);
-                                            }
-                                        }
-                                        data[i]['checkboxDisabled'] = disabled;
-                                        data[i]['isSelected'] = isSelected;
-                                        data[i]['isIndeterminate'] = (isIndeterminate &&
-                                            isSelected);
-                                        data[i].Server.Components = _.orderBy(data[i].Server
-                                            .Components, [
-                                                'sort'
-                                            ], ['asc']);
-                                    }
-                                    app.isCheckCompleted = true;
-                                    app.upgradeReportList = data;
-                                    app.$refs["upgrade-report"].setDataList(app
-                                        .upgradeReportList);
-                                } else {
-                                    app.isCheckCompleted = true;
-                                    app.upgradeReportList = [];
-                                    app.$refs["upgrade-report"].setDataList(app
-                                        .upgradeReportList);
-                                }
-                            } else {
-                                app.percentage = ret.data[0].data.Progress;
-                                app.getTaskInfo(taskId);
-                            }
-                        } else {
+                        if (ret.code !== '0') {
                             var msg = getErrorMsg(ret);
                             alertMsg(msg);
+                            return;
                         }
+                        if (ret.data[0].data.Status !== 'Finish') {
+                            app.percentage = ret.data[0].data.Progress;
+                            app.getTaskInfo(taskId);
+                            return;
+                        }
+                        var data = ret.data[0].data.TaskExInfo.DeviceFirmwareInfos.Members;
+                        if (!data) {
+                            app.isCheckCompleted = true;
+                            app.upgradeReportList = [];
+                            app.$refs["upgrade-report"].setDataList(app.upgradeReportList);
+                            return;
+                        }
+                        var unsuggestedStatus = ['CanUpgradeAndNeedUpgradeSP', 'NoMatchingDriverPackageAndNeedUpgradeSP', 'SameVersion',
+                            'NoMatchingDriverPackage', 'NoMatchingDriverPackageAndNoMatchingComponentPackage', 'NoMatchingComponentPackage',
+                            'SPCanUpgrade', 'NoMatchingDriverOrComponentPackage', 'LowVersion'];
+                        for (var i = 0; i < data.length; i++) {
+                            if (!data[i] || !data[i].Server || !data[i].Server.Components) {
+                                continue;
+                            }
+                            data[i]['MINSPVersion'] = ret.data[0].data.TaskExInfo.DeviceFirmwareInfos.MINSPVersion;
+                            data[i]['MINBMCVersionForSPUpgrade'] = ret.data[0].data.TaskExInfo.DeviceFirmwareInfos.MINBMCVersionForSPUpgrade;
+                            var disabled = true;
+                            var isIndeterminate = false;
+                            var isSelected = false;
+                            for (var k = 0; k < data[i].Server.Components.length; k++) {
+                                if (_.filter(data[i].Server.Components, {Component: 'BackupBMC'}).length > 0
+                                    && _.filter(data[i].Server.Components, {Component: 'BackupBMC'})[0].UpgradeableStatus === 'CanUpgrade'
+                                    &&_.filter(data[i].Server.Components, {Component: 'ActiveBMC'}).length > 0
+                                    && _.filter(data[i].Server.Components, {Component: 'ActiveBMC'})[0].UpgradeableStatus === 'CanUpgrade') {
+                                    _.filter(data[i].Server.Components, {Component: 'BackupBMC'})[0].UpgradeableStatus = 'BackupBMC';
+                                }
+                                data[i].Server.Components[k]['sort'] = app.componentSort(data[i].Server.Components[k]);
+                                if (data[i].Server.Components[k].UpgradeableStatus === 'CanUpgrade'
+                                    || data[i].Server.Components[k].UpgradeableStatus === 'DriverCanUpgrade'
+                                    || data[i].Server.Components[k].UpgradeableStatus === 'SPCanUpgrade') {
+                                    data[i].Server.Components[k]['checkboxDisabled'] = false;
+                                    data[i].Server.Components[k]['isSelected'] = true;
+                                    data[i].Server.Components[k]['checkboxTips'] = '';
+                                    disabled = false;
+                                    isSelected = true;
+                                } else if (unsuggestedStatus.indexOf(data[i].Server.Components[k].UpgradeableStatus) > -1) {
+                                    data[i].Server.Components[k]['checkboxDisabled'] = false;
+                                    data[i].Server.Components[k]['isSelected'] = false;
+                                    data[i].Server.Components[k]['checkboxTips'] = app.componentCheckBoxTip(data[i].Server.Components[k],
+                                        data[i].MINSPVersion, data[i].MINBMCVersionForSPUpgrade);
+                                    disabled = false;
+                                    isIndeterminate = true;
+                                } else {
+                                    data[i].Server.Components[k]['checkboxDisabled'] = true;
+                                    data[i].Server.Components[k]['isSelected'] = false;
+                                    data[i].Server.Components[k]['checkboxTips'] = app.componentCheckBoxTip(data[i].Server.Components[k],
+                                        data[i].MINSPVersion, data[i].MINBMCVersionForSPUpgrade);
+                                }
+                            }
+                            data[i]['checkboxDisabled'] = disabled;
+                            data[i]['isSelected'] = isSelected;
+                            data[i]['isIndeterminate'] = (isIndeterminate && isSelected);
+                            data[i].Server.Components = _.orderBy(data[i].Server.Components, ['sort'], ['asc']);
+                        }
+                        app.isCheckCompleted = true;
+                        app.upgradeReportList = data;
+                        app.$refs["upgrade-report"].setDataList(app.upgradeReportList);
                     });
                 },
 
@@ -2832,6 +2784,8 @@
                             return this.i18ns.upgradePlan.upgradePlan_powerTypeOtherError;
                         case "DiskRelationRaidNotMatch":
                             return this.i18ns.upgradePlan.upgradePlan_diskRelationRaidNotMatch;
+                        case "LowVersion":
+                            return this.i18ns.upgradePlan.upgradePlan_lowVersion;
                         default:
                             return "";
                     }

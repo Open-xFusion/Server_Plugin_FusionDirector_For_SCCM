@@ -247,13 +247,6 @@
                 setTimeout(function () {
                     getFDList(that.bindFD);
                 }, 0);
-                //输入框键盘事件监听
-                $('.is-in-pagination .el-input__inner').bind('keydown', function (event) {
-                    if (event.keyCode == "13") {
-                        var value = parseInt(this.value);
-                        that.handleCurrentChange(value);
-                    }
-                });
             },
             methods: {
                 toensurePage: function () {

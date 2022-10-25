@@ -128,7 +128,7 @@ Vue.component('Windows', {
                     <el-option v-for="item in Timezone" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item :label="i18ns.OSDeploy.OSDeploy_iBMALable" prop="SupportIbma">
+            <el-form-item :label="i18ns.OSDeploy.OSDeploy_iBMALable" prop="SupportIbma" v-if="isSupportIBMA">
                 <el-checkbox v-model="deployForm.SupportIbma" @change="ibmaChange">
                     {{i18ns.OSDeploy.OSDeploy_install}}</el-checkbox>
                 <span v-if="!deployForm.SupportIbma" style="color: #EEAF76;"><i class="el-icon-warning"
@@ -218,6 +218,7 @@ Vue.component('Windows', {
             Language: [], //语言
             Keyboard: [], //键盘选项
             Timezone: [], //时区
+            isSupportIBMA: false,  //是否支持安装iBMA
             hostName: false,
             tipCdkey1: false,
             tipCdkey2: false,
@@ -273,6 +274,16 @@ Vue.component('Windows', {
                     app.deployForm.Timezone = ret.data[0].data.Result.Attribute.Timezone[0];
                     app.deployForm.KeyBoard = ret.data[0].data.Result.Attribute.Keyboard[0];
                     app.deployForm.Option = app.Options.length > 0 ? app.Options[0].Option : '';
+                    if (ret.data[0].data.Result.Attribute.SupportSoftware.length > 0
+                        && ret.data[0].data.Result.Attribute.SupportSoftware[0] === 'iBMA') {
+                        app.isSupportIBMA = true;
+                        app.deployForm.SupportIbma = true;
+                        app.deployForm.Software = [{"FileName": "iBMA"}];
+                    } else {
+                        app.isSupportIBMA = false;
+                        app.deployForm.SupportIbma = false;
+                        app.deployForm.Software = [];
+                    }
                     if (app.form) {
 
                         app.deployForm.Cdkey = app.form.Cdkey;

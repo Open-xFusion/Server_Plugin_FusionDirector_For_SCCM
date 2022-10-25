@@ -52,8 +52,8 @@ Vue.component("choice-devices", {
                 label: this.i18ns.upgradePlan.upgradePlan_OSVersion
             },
             {
-                id: 'Type',
-                label: this.i18ns.deviceVersionStatus.deviceVersionStatus_type
+                id: 'HostName',
+                label: this.i18ns.deviceVersionStatus.deviceVersionStatus_hostName
             },
             {
                 id: 'SN',
@@ -99,12 +99,13 @@ Vue.component("choice-devices", {
             var orderBy = this.sortParam.prop + ' ' + this.sortParam.order
             var queryParam = {
                 ip: this.FDIp,
-                "pageNo": this.currentPage,
-                "pageSize": this.pageSize,
-                orderby: orderBy
+                pageNo: this.currentPage,
+                pageSize: this.pageSize,
+                orderby: orderBy,
+                filter: "Type has 'Server'"
             }
             if (this.keyword) {
-                queryParam.filter = this.searchType + " has " + "'" + this.keyword + "'"
+                queryParam.filter += " and " + this.searchType + " has " + "'" + this.keyword + "'"
             }
             this.emptyText = this.i18ns.common.loading;
             var that = this;
